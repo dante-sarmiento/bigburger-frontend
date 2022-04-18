@@ -1,0 +1,28 @@
+.custom-li {
+    padding: 1rem 2rem;
+    list-style: none;
+    &:not(:last-child){
+        border-bottom: 1px solid #999;
+    }
+    display: flex;
+}
+.description {
+    font-size: 1.2 rem;
+    display: flex;
+    
+}
+.nombre {
+    margin-right: 5rem;
+    width: 15rem;
+}
+.email {
+    margin-right: 5rem;
+    width: 15rem;
+}
+.role{
+    margin-right: 5rem;
+    width: 15rem;
+}
+.active {
+    width: 15rem;
+}

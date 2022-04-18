@@ -1,0 +1,65 @@
+import React from 'react'
+// export const UserList = (usersFromDBToList) => {
+//   const users = UsersFromDB;
+//   const columns = [
+//   {
+//     title: 'Name',
+//     dataIndex: 'name',
+//     width: 150,
+//   },
+//   {
+//     title: 'Email',
+//     dataIndex: 'email',
+//     width: 150,
+//   },
+//   {
+//     title: 'Active',
+//     dataIndex: 'active',
+//   },
+// ];
+
+// const data = [UsersFromDB];
+// for (let i = 0; i < 100; i++) {
+//   data.push({
+//     key: i,
+//     name: `${users.fullName}`,
+//     email: `${users.email}`,
+//     active: `${users.active}`,
+//   });
+// }
+
+//   return (
+//     <>
+//     {/* <div>LISTA DE USUARIOS</div>
+//     <List>
+//             {UsersFromDB.map(UsersFromDB => {
+//                 return (
+//                   <ul>
+//                     <List.Item key={UsersFromDB._id}>
+//                         <Skeleton avatar title={false} loading={false} active>
+//                             <List.Item.Meta
+//                                 title={<a href="https://ant.design">{UsersFromDB.fullName}</a>}
+//                                 description={UsersFromDB.description}
+//                             />
+//                             <div>{UsersFromDB.role}</div>
+//                         </Skeleton>
+//                     </List.Item>
+//                     </ul>
+//                 )
+//             })
+//             }
+//         </List > */}
+
+//         <h1>Lista de usuarios</h1>
+//         <Table 
+//         columns={columns} 
+//         dataSource={data} 
+//         pagination={{ pageSize: 50 }} 
+//         scroll={{ y: 240 }} 
+//         bordered
+//         />
+    
+//     </>
+    
+//   )
+// }
