@@ -1,73 +1,50 @@
-import { List, Skeleton,  } from 'antd'
+import { List, Skeleton,Checkbox } from 'antd'
 import axios from 'axios'
-import { Component } from 'react'
+import { useEffect, useState } from 'react'
 import { UsersFromDB } from '../../../../constants/usersFromDB'
 import { UserListItem } from './userListItem/UserListItem'
+import { Table, Space  } from 'antd';
+const { Column } = Table
 
 
-export class ListaUsuarios extends Component {
 
-  state = {
-    users: []
-  }
 
-  async componentDidMount() {
-    const res = await axios.get('http://localhost:3000/api/users');
-    this.setState({ users: res.data });
-    console.log(this.state.users);
-  }
-    
+export const ListaUsuarios = ({functionDelete, users}) => {
+  
+
   
   
-  render() {
-    return (
-      <>
-       <List>
-            {this.state.users.map(user => {
-                return (
-                    <List.Item key={user._id}>
-                        <Skeleton avatar title={false} loading={false} active>
-                            <List.Item.Meta
-                                title={<a href="https://ant.design">{user.fullName}</a>}
-                                
-                            />
-                            <div>{user.active}</div>
-                        </Skeleton>
-                    </List.Item>
-                )
-            })
-            }
-        </List >
-      </>
-    )
-  }
-}
 
-
-
-export const UserList = () => {
+  // function onChange(pagination, filters, sorter, extra) {
+  //   console.log('params', pagination, filters, sorter, extra);
+  // }
 
   return (
     <>
-      <ul>
-        {UsersFromDB.map(users =>
-          <UserListItem users={users} key={users._id} />
-        )}
-      </ul>
+      <Table dataSource={users}>
+        <Column title="Nombre y Apellido" dataIndex="fullName" key="fullName" />
+        <Column title="Correo electrónico" dataIndex="email" key="email" />
+        <Column title="Rol" dataIndex="role" key="role" />
+        <Column
+          title="Active"
+          key="action"
+          dataIndex="active"
+          render={(active, user) => (
+            <Space size="middle">
+              <Checkbox
+                checked={active}
+                // onChange={changeStatus}
+              >
+              </Checkbox>
+              <a onClick={() => functionDelete(user._id)}>Delete </a>
+            </Space>
+          )}
+        />
+      </Table>;
 
-      {/* <Divider orientation="left">Lista de usuarios</Divider>
-    <List
-      size="large"
-      bordered
-      dataSource={UsersFromDB}
-      renderItem={users =>
-        <List.Item>
-          <span>{users._id}, </span>
-          {users.fullName}
-        </List.Item>}
-    /> */}
     </>
   )
 }
+
 
 
