@@ -1,32 +1,42 @@
-import { Checkbox, Button, Modal, Input } from 'antd'
+import { Checkbox, Button, Modal, Input, Form} from 'antd'
 import { useEffect, useState } from 'react'
-import { UsersFromDB } from '../../../../constants/usersFromDB'
-import { UserListItem } from './userListItem/UserListItem'
-import { Table, Space  } from 'antd';
+import { Table, Space } from 'antd';
 import { UpdateUser } from '../UpdateUser/UpdateUser'
+import axios from 'axios';
 const { Column } = Table
 
 
 
 
-export const ListaUsuarios = ({functionDelete, changeStatus , users}) => {
+export const ListaUsuarios = ({ functionDelete, functionUserEdit, changeStatus, editModal, users }) => {
 
-  
+  const [isModalVisible, setUserEdit] = useState(false);
+  const [userEditing, setUserEditing] = useState(true)
 
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const showModal = (id) => {
+    setUserEdit(true);
+    //guardo el usuario en userED
+    let userED = users.find(user => user._id === id)
+    console.log(userED)
+    setUserEditing(userED)
 
-    const showModal = () => {
-        setIsModalVisible(true);
-    };
+  };
 
-    const handleOk = () => {
-        setIsModalVisible(false);
-    };
+  async function userEdit(upd_id) {
+    let userUD = await axios.put(`http://localhost:3000/api/user/${upd_id}`);
+    setUserEdit()
+    console.log(userUD)
+    handleOk()
+  }
 
-    const handleCancel = () => {
-        setIsModalVisible(false);
-    };
-  
+  const handleOk = () => {
+    setUserEdit(false);
+  };
+
+  const handleCancel = () => {
+    setUserEdit(false);
+  };
+
 
   // function onChange(pagination, filters, sorter, extra) {
   //   console.log('params', pagination, filters, sorter, extra);
@@ -46,33 +56,50 @@ export const ListaUsuarios = ({functionDelete, changeStatus , users}) => {
             <Space size="middle">
               <Checkbox
                 checked={active}
-                
+
               >
               </Checkbox>
               <Button type='primary' danger onClick={() => functionDelete(user._id)}>Eliminar Usuario </Button>
-              <Button type="primary" onClick={() => changeStatus(user._id) } >
+
+              <Button type='secondary' onClick={() => functionUserEdit(user._id)}>EDIT</Button>
+
+
+              <Button type="primary" onClick={() => showModal(user._id)} onFocus={() => changeStatus(user._id)} >
                 Editar Usuario
-            </Button>
-            <Modal title="Editar Usuario" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-                <label htmlFor="">Nombre y Apellido</label>
-                <Input key={`${user.fullName}`} />
-                <label htmlFor="">Email</label>
-                <Input placeholder="Email" />
-                <label htmlFor="">Rol</label>
-                <Input placeholder="Rol" />
-                <label htmlFor="">Estado</label>
-                <Input placeholder="Estado" />
-            </Modal>
+              </Button>
+              <Modal title="Editar Usuario"
+                visible={isModalVisible}
+                onOk={userEdit}
+                onCancel={handleCancel}>
+                <Form>
+                  <Form.Item label="Estado" >
+                    <Input value={userEditing?.active} onChange={(e) => {
+                      setUserEditing((pre) => {
+                        return { ...pre, active: e.target.value }
+                      })
+                    }} />
+                  </Form.Item>
+                  <Form.Item label="Rol">
+                    <Input value={userEditing?.role} onChange={(e) => {
+                      setUserEditing((pre) => {
+                        return { ...pre, role: e.target.value }
+                      })
+                    }} />
+                  </Form.Item>
+                </Form>
+              </Modal>
             </Space>
-            
+
           )}
-          
+
         />
       </Table>;
 
     </>
   )
 }
+
+
 
 
 
