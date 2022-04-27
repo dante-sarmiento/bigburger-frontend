@@ -12,7 +12,7 @@ export const User = () => {
 
 
   async function loadUsers() {
-    const res = await axios.get('http://localhost:3000/api/users');
+    const res = await axios.get(`${process.env.REACT_APP_SERVER_URL}/users`);
     const usersDB = res.data.users;
     setUsers(usersDB);
     console.log(usersDB);
@@ -86,6 +86,16 @@ export const User = () => {
     }
   }
 
+  const handleActiveStatus = async(value, property, id) => {
+    try {
+      const user = users.find(user => user._id === id);
+      user[property] = value;
+      const updUser = await axios.put(`${process.env.REACT_APP_SERVER_URL}/user/${id}`, user)
+      setUsers([...users])
+    } catch (error) {
+      
+    }
+  }
 
   useEffect(() => {
     loadUsers();
@@ -98,7 +108,7 @@ export const User = () => {
     <>
       <Typography.Title level={1}>Usuarios</Typography.Title>
       {/* <UserList/> */}
-      <ListaUsuarios functionDelete={handleDeleteUser} functionUserEdit={handleUserEdit} changeStatus={UpdateUser} users={users} />
+      <ListaUsuarios handleActiveStatus={handleActiveStatus} functionDelete={handleDeleteUser} functionUserEdit={handleUserEdit} changeStatus={UpdateUser} users={users} />
       <Modal title={dialogTitle} visible={actionDialog} onOk={hiddeModal} onCancel={hiddeModal}>
         {dialogMessage}
       </Modal>

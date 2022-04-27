@@ -8,7 +8,7 @@ const { Column } = Table
 
 
 
-export const ListaUsuarios = ({ functionDelete, functionUserEdit, changeStatus, editModal, users }) => {
+export const ListaUsuarios = ({ functionDelete, functionUserEdit, changeStatus, editModal, users, handleActiveStatus }) => {
 
   const [isModalVisible, setUserEdit] = useState(false);
   const [userEditing, setUserEditing] = useState(true)
@@ -56,7 +56,9 @@ export const ListaUsuarios = ({ functionDelete, functionUserEdit, changeStatus, 
             <Space size="middle">
               <Checkbox
                 checked={active}
-
+                onChange={(e) => {
+                  handleActiveStatus(e.target.checked, 'active', user._id)
+                }}
               >
               </Checkbox>
               <Button type='primary' danger onClick={() => functionDelete(user._id)}>Eliminar Usuario </Button>
