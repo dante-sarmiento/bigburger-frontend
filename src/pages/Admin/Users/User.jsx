@@ -8,7 +8,7 @@ export const User = () => {
   const [users, setUsers] = useState([]);
 
   async function loadUsers() {
-    const res = await axios.get('http://localhost:3000/api/users');
+    const res = await axios.get(`${process.env.REACT_APP_SERVER_URL}/users`);
     console.log(res.data);
     setUsers(res.data.users)
   }
